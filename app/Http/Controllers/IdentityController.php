@@ -13,7 +13,7 @@ class IdentityController extends Controller
                     ->take(1)
                     ->get();
 
-        return response($staff);
+        return response()->json($staff);
     }
 
     public function allStaffs()
