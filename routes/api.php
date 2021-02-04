@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IdentityController;
+use App\Http\Controllers\ScanController;
+use App\Http\Controllers\API\WorkerController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -20,10 +23,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 //Staff API
-Route::get('/check-staff/{id}', [IdentityController::class, 'checkStaff']);
-Route::get('/staffs',[IdentityController::class, 'allStaffs']);
-Route::post('/staff', [IdentityController::class, 'create']);
-Route::put('/staffs/{id}', [IdentityController::class, 'updateStaff']);
-Route::delete('/staffs/{id}', [IdentityController::class, 'deleteStaff']);
+Route::get('/check-staff/{id}', [IdentityController::class, 'checkStaff'])->middleware("cors");
+Route::get('/staffs',[IdentityController::class, 'allStaffs'])->middleware("cors");
+Route::post('/staffs', [IdentityController::class, 'create'])->middleware("cors");
+Route::put('/staffs/{id}', [IdentityController::class, 'updateStaff'])->middleware("cors");
+Route::delete('/staffs/{id}', [IdentityController::class, 'deleteStaff'])->middleware("cors");
 
+//Scan API
+Route::get('/staff/scans',[ScanController::class, 'index'])->middleware("cors");
+Route::post('/staff/scans', [ScanController::class, 'create'])->middleware("cors");
 
