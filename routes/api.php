@@ -4,7 +4,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IdentityController;
 use App\Http\Controllers\ScanController;
-use App\Http\Controllers\API\WorkerController;
 
 
 /*
@@ -31,5 +30,5 @@ Route::delete('/staffs/{id}', [IdentityController::class, 'deleteStaff'])->middl
 
 //Scan API
 Route::get('/staff/scans',[ScanController::class, 'index'])->middleware("cors");
-Route::post('/staff/scans', [ScanController::class, 'create'])->middleware("cors");
+Route::post('/staff/scan', [ScanController::class, 'create'])->middleware("cors");
 
