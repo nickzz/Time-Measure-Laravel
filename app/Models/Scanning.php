@@ -16,6 +16,6 @@ class Scanning extends Model
 
 
     protected $fillable = [
-        'BARCODE', 'LINE_NAME', 'STATION', 'MODEL', 'MODEL_NAME'
+        'BARCODE', 'STATION', 'START_TIME','EMP_NO'
     ];
 }

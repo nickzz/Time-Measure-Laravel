@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Scanning;
 use Illuminate\Http\Request;
+use DateTime;
+use DateTimeZone;
 
 class ScanController extends Controller
 {
@@ -14,7 +16,7 @@ class ScanController extends Controller
      */
     public function index()
     {
-        $scans = Scanning::get();
+        $scans = Scanning::orderBy('ID','DESC')->get();
         return response()->json($scans);
     }
 
@@ -27,8 +29,14 @@ class ScanController extends Controller
     {
         $scan = new Scanning();
 
+        $startDate = new DateTime($request->input('startTime'));
+        $tz = new DateTimeZone('Asia/Kuala_Lumpur');
+        $startDate->setTimezone($tz);
+
         $scan->STATION = $request->input('station');
         $scan->BARCODE = $request->input('barcode');
+        $scan->START_TIME = $startDate;
+        $scan->EMP_NO = $request->input('empNo');
 
         $scan->save();
         return response()->json($scan);
