@@ -30,13 +30,34 @@ class ScanController extends Controller
         $scan = new Scanning();
 
         $startDate = new DateTime($request->input('startTime'));
-        $tz = new DateTimeZone('Asia/Kuala_Lumpur');
-        $startDate->setTimezone($tz);
+        $endDate = new DateTime($request->input('endTime'));
+        $startRest = new DateTime($request->input('startRestTime'));
+        $endRest = new DateTime($request->input('endRestTime'));
 
-        $scan->STATION = $request->input('station');
-        $scan->BARCODE = $request->input('barcode');
-        $scan->START_TIME = $startDate;
-        $scan->EMP_NO = $request->input('empNo');
+        $tz = new DateTimeZone('Asia/Kuala_Lumpur');
+        
+        $startDate->setTimezone($tz);
+        $endDate->setTimezone($tz);
+        $startRest->setTimezone($tz);
+        $endRest->setTimezone($tz);
+
+        if(!empty($request->input('startRestTime')) && !empty($request->input('endRestTime')))
+         {
+            $scan->START_REST_TIME = $startRest;
+            $scan->END_REST_TIME = $endRest;
+            $scan->STATION = $request->input('station');
+            $scan->BARCODE = $request->input('barcode');
+            $scan->START_TIME = $startDate;
+            $scan->END_TIME = $endDate;
+            $scan->EMP_NO = $request->input('empNo');
+        }
+        else{
+            $scan->STATION = $request->input('station');
+            $scan->BARCODE = $request->input('barcode');
+            $scan->START_TIME = $startDate;
+            $scan->END_TIME = $endDate;
+            $scan->EMP_NO = $request->input('empNo');
+        }
 
         $scan->save();
         return response()->json($scan);
