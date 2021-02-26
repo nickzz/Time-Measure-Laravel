@@ -29,6 +29,7 @@ Route::put('/staffs/{id}', [IdentityController::class, 'updateStaff'])->middlewa
 Route::delete('/staffs/{id}', [IdentityController::class, 'deleteStaff'])->middleware("cors");
 
 //Scan API
-Route::get('/staff/scans',[ScanController::class, 'index'])->middleware("cors");
-Route::post('/staff/scan', [ScanController::class, 'create'])->middleware("cors");
+Route::get('/scans/{id}',[ScanController::class, 'index'])->middleware("cors");
+Route::post('/scans', [ScanController::class, 'create'])->middleware("cors");
+
 

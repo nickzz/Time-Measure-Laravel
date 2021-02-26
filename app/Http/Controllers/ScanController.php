@@ -14,10 +14,18 @@ class ScanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        $scans = Scanning::orderBy('ID','DESC')->get();
-        return response()->json($scans);
+        // $scans = Scanning::where('EMP_NO', $id)->orderBy('START_TIME','DESC')->get();
+        // return response()->json($scans);
+        if (Scanning::where('EMP_NO', $id)->exists()) {
+            $data = Scanning::where('EMP_NO', $id)->get()->toJson(JSON_PRETTY_PRINT);
+            return response($data, 200);
+        } else {
+            return response()->json([
+                "message" => "Product not exists"
+            ], 404);
+        }
     }
 
     /**
@@ -35,14 +43,13 @@ class ScanController extends Controller
         $endRest = new DateTime($request->input('endRestTime'));
 
         $tz = new DateTimeZone('Asia/Kuala_Lumpur');
-        
+
         $startDate->setTimezone($tz);
         $endDate->setTimezone($tz);
         $startRest->setTimezone($tz);
         $endRest->setTimezone($tz);
 
-        if(!empty($request->input('startRestTime')) && !empty($request->input('endRestTime')))
-         {
+        if (!empty($request->input('startRestTime')) && !empty($request->input('endRestTime'))) {
             $scan->START_REST_TIME = $startRest;
             $scan->END_REST_TIME = $endRest;
             $scan->STATION = $request->input('station');
@@ -50,8 +57,7 @@ class ScanController extends Controller
             $scan->START_TIME = $startDate;
             $scan->END_TIME = $endDate;
             $scan->EMP_NO = $request->input('empNo');
-        }
-        else{
+        } else {
             $scan->STATION = $request->input('station');
             $scan->BARCODE = $request->input('barcode');
             $scan->START_TIME = $startDate;
