@@ -16,8 +16,6 @@ class ScanController extends Controller
      */
     public function index($id)
     {
-        // $scans = Scanning::where('EMP_NO', $id)->orderBy('START_TIME','DESC')->get();
-        // return response()->json($scans);
         if (Scanning::where('EMP_NO', $id)->exists()) {
             $data = Scanning::where('EMP_NO', $id)->get()->toJson(JSON_PRETTY_PRINT);
             return response($data, 200);
